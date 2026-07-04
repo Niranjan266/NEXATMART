@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --f-purple: #6d28d9;
+    --f-purple-light: #8b5cf6;
+    --f-yellow: #facc15;
+    --f-bg: #ffffff;
+    --f-section-bg: #f8fafc;
+    --f-text: #1e293b;
+    --f-text-muted: #64748b;
+    --f-border: #e2e8f0;
+    --f-radius: 12px;
+}
+
+body {
+    background-color: var(--f-bg);
+    color: var(--f-text);
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Header & Nav */
+.top-bar {
+    background: #4c1d95;
+    color: white;
+    font-size: 0.85rem;
+    padding: 8px 0;
+}
+
+.glass-nav {
+    background: white !important;
+    border-bottom: 1px solid var(--f-border);
+    padding: 1rem 0;
+}
+
+.gh-brand {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--f-purple) !important;
+}
+
+.gh-brand span {
+    color: var(--f-yellow);
+}
+
+.search-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+.search-input {
+    border-radius: 50px 0 0 50px;
+    border: 1px solid var(--f-border);
+    padding: 10px 20px;
+}
+
+.search-btn {
+    border-radius: 0 50px 50px 0;
+    background: var(--f-yellow);
+    border: none;
+    padding: 0 25px;
+}
+
+/* Buttons */
+.gh-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none !important;
+}
+
+.gh-btn-primary {
+    background: var(--f-purple);
+    color: white !important;
+}
+
+.gh-btn-primary:hover {
+    background: var(--f-purple-light);
+    transform: translateY(-1px);
+}
+
+/* Hero Grid */
+.hero-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.hero-main {
+    grid-row: span 2;
+    background: #fdf4ff;
+    border-radius: 20px;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-sub {
+    background: #eff6ff;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Category Icons */
+.cat-item {
+    text-align: center;
+    padding: 20px;
+    border-radius: 15px;
+    background: var(--f-section-bg);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.cat-item:hover {
+    background: #f5f3ff;
+    transform: translateY(-5px);
+}
+
+.cat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* Product Cards */
+.f-card {
+    background: white;
+    border: 1px solid var(--f-border);
+    border-radius: 15px;
+    padding: 15px;
+    transition: 0.3s;
+}
+
+.f-card:hover {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    border-color: var(--f-purple-light);
+}
+
+.f-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ef4444;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.rating-stars {
+    color: var(--f-yellow);
+    font-size: 0.8rem;
+}
+
+/* Seller/User Section */
+.seller-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.seller-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Common Utilities */
+.text-purple {
+    color: var(--f-purple);
+}
+
+.bg-purple-dim {
+    background: #f5f3ff;
+}
+
+.bg-yellow-dim {
+    background: #fefce8;
+}
+
+.animate-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fSlideUp 0.6s ease-out forwards;
+}
+
+@keyframes fSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

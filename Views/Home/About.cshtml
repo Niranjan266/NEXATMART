@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="container py-5">
+    <div class="row align-items-center g-5">
+        <div class="col-md-6 animate-up">
+            <h1 class="display-3 fw-bold mb-4" style="color: var(--f-text);">Our <span class="text-purple">Story.</span></h1>
+            <p class="fs-5 text-muted mb-4 leading-relaxed">
+                Nexamart started with a simple belief: that everyone deserves access to the healthiest, most flavorful food without compromise. We partner directly with local farmers to bring you the season's best pickings.
+            </p>
+            <div class="row g-4 mb-5">
+                <div class="col-6">
+                    <div class="f-card p-4 shadow-sm border-0 bg-purple-dim">
+                        <h3 class="fw-bold text-purple mb-1">10k+</h3>
+                        <p class="small text-muted mb-0">Happy Customers</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="f-card p-4 shadow-sm border-0 bg-yellow-dim">
+                        <h3 class="fw-bold text-warning mb-1">100%</h3>
+                        <p class="small text-muted mb-0">Organic Certified</p>
+                    </div>
+                </div>
+            </div>
+            <a asp-action="Index" class="gh-btn gh-btn-primary px-5 py-3 shadow-sm">Start Shopping</a>
+        </div>
+        <div class="col-md-6 animate-up" style="animation-delay: 0.1s;">
+            <div class="position-relative">
+                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600" class="img-fluid rounded-4 shadow-lg" />
+                <div class="position-absolute bottom-0 start-0 m-4 p-4 bg-white rounded-4 shadow-lg">
+                    <p class="mb-0 fw-bold">"Feeding the world, one organic basket at a time."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+@model IEnumerable<OnlineGroceryShop.Models.OrderDetail>
+@{
+    ViewData["Title"] = "Your Bag";
+}
+
+<div class="container pt-5">
+    <div class="mb-5 animate-up">
+        <h1 class="display-4 fw-bold">Your <span style="color: var(--f-purple);">Bag.</span></h1>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            <div class="col-md-8 animate-up" style="animation-delay: 0.1s;">
+                <div class="f-card p-4 overflow-hidden border-0 shadow-sm" style="background: white;">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead>
+                                <tr class="text-muted small border-bottom" style="border-color: var(--f-border) !important;">
+                                    <th class="pb-3 px-3">Product</th>
+                                    <th class="pb-3 text-center">Quantity</th>
+                                    <th class="pb-3 text-end px-3">Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="border-bottom" style="border-color: var(--f-border) !important;">
+                                        <td class="py-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-light rounded-3 p-2 me-3" style="width: 70px; height: 70px; display: grid; place-items: center;">
+                                                    <img src="@item.Product?.ImagePath" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-0 fw-bold" style="color: var(--f-text);">@item.Product?.Name</h5>
+                                                    <small class="text-muted">₹@item.UnitPrice.ToString("N2") each</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-4">
+                                            <span class="rounded-pill px-3 py-1 fw-bold text-white shadow-sm" style="background: var(--f-purple);">@item.Quantity</span>
+                                        </td>
+                                        <td class="text-end py-4 fw-bold h5 mb-0" style="color: var(--f-purple);">
+                                            ₹@((item.UnitPrice * item.Quantity).ToString("N2"))
+                                        </td>
+                                        <td class="text-end py-4">
+                                            <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId" class="text-danger text-decoration-none small fw-bold">Remove</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 animate-up" style="animation-delay: 0.2s;">
+                <div class="f-card p-5 shadow-sm" style="background: var(--f-section-bg);">
+                    <h3 class="fw-bold mb-4" style="color: var(--f-text);">Summary</h3>
+                    <div class="d-flex justify-content-between mb-3 text-muted">
+                        <span>Subtotal</span>
+                        <span>₹@Model.Sum(i => i.UnitPrice * i.Quantity).ToString("N2")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-5 h4 fw-bold" style="color: var(--f-text);">
+                        <span>Total</span>
+                        <span style="color: var(--f-purple);">₹@Model.Sum(i => i.UnitPrice * i.Quantity).ToString("N2")</span>
+                    </div>
+                    <a asp-action="Checkout" class="gh-btn gh-btn-primary w-100 py-3 shadow-sm">Proceed to Checkout</a>
+                    <a asp-controller="Home" asp-action="Index" class="d-block text-center mt-4 text-muted text-decoration-none small">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5 animate-up">
+            <h2 class="h3 text-muted fw-normal mb-5">Your bag is empty.</h2>
+            <a asp-controller="Home" asp-action="Index" class="gh-btn gh-btn-primary px-5 py-3 shadow-sm">Shop Nexamart</a>
+        </div>
+    }
+</div>

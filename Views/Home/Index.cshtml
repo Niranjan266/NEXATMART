@@ -1,0 +1,188 @@
+@model IEnumerable<OnlineGroceryShop.Models.Product>
+@{
+    ViewData["Title"] = "Fresh Organic Food For All";
+}
+
+<div class="container py-4">
+    <!-- Category Icons Sub-Nav -->
+    <div class="d-flex justify-content-between align-items-center mb-5 overflow-auto gap-4 py-2 border-bottom border-top" style="white-space: nowrap;">
+        <a asp-action="Index" asp-route-categoryId="1" class="cat-item border-0 bg-transparent text-decoration-none text-dark">
+            <div class="cat-icon">🥦</div>
+            <div class="small fw-bold">Vegetables</div>
+            <div class="text-muted small">8 Products</div>
+        </a>
+        <a asp-action="Index" asp-route-categoryId="2" class="cat-item border-0 bg-transparent text-decoration-none text-dark">
+            <div class="cat-icon">🍎</div>
+            <div class="small fw-bold">Fresh Fruits</div>
+            <div class="text-muted small">8 Products</div>
+        </a>
+        <a asp-action="Index" asp-route-categoryId="3" class="cat-item border-0 bg-transparent text-decoration-none text-dark">
+            <div class="cat-icon">🧁</div>
+            <div class="small fw-bold">Desserts</div>
+            <div class="text-muted small">9 Products</div>
+        </a>
+        <a asp-action="Index" asp-route-categoryId="4" class="cat-item border-0 bg-transparent text-decoration-none text-dark">
+            <div class="cat-icon">🥤</div>
+            <div class="small fw-bold">Drinks & Juice</div>
+            <div class="text-muted small">8 Products</div>
+        </a>
+        <a asp-action="Index" asp-route-categoryId="5" class="cat-item border-0 bg-transparent text-decoration-none text-dark">
+            <div class="cat-icon">🐟</div>
+            <div class="small fw-bold">Fish & Meats</div>
+            <div class="text-muted small">8 Products</div>
+        </a>
+        <a asp-action="Index" asp-route-categoryId="6" class="cat-item border-0 bg-transparent text-decoration-none text-dark">
+            <div class="cat-icon">🐶</div>
+            <div class="small fw-bold">Pets & Animals</div>
+            <div class="text-muted small">4 Products</div>
+        </a>
+    </div>
+
+    <!-- Hero Grid -->
+    <div class="hero-grid animate-up">
+        <div class="hero-main shadow-sm" style="background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1200'); background-size: cover; background-position: center;">
+            <div class="position-absolute top-0 start-0 w-100 h-100 bg-white opacity-25" style="z-index: 0;"></div>
+            <div class="position-relative" style="z-index: 1;">
+                <span class="badge bg-purple-dim text-purple mb-3">100% Farm Fresh Food</span>
+                <h1 class="hero-title">Fresh Organic<br /><span class="text-dark">Food For All</span></h1>
+                <h3 class="fw-bold mb-4">AT ₹30.00</h3>
+                <a href="#featured" class="gh-btn gh-btn-primary px-5 py-3 shadow text-white">Shop Now</a>
+            </div>
+        </div>
+        <div class="hero-sub shadow-sm" style="background: #eef2ff;">
+            <p class="text-purple fw-bold mb-1">Creamy Fruits baby Jem</p>
+            <p class="small text-muted mb-3">Only ₹12.99</p>
+            <a asp-action="Index" asp-route-categoryId="2" class="gh-btn gh-btn-outline btn-sm">Shop Now</a>
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=300" class="position-absolute end-0 bottom-0 mb-n3 me-n3 opacity-50" style="max-height: 120px;" />
+        </div>
+        <div class="d-flex gap-3">
+            <div class="hero-sub flex-grow-1 shadow-sm" style="background: #f0fdf4;">
+                <p class="text-success fw-bold mb-1">New Fruits</p>
+                <a href="#featured" class="gh-btn gh-btn-outline btn-sm">Shop Now</a>
+            </div>
+            <div class="hero-sub flex-grow-1 shadow-sm" style="background: #fff7ed;">
+                <p class="text-warning fw-bold mb-1">New Vegetables</p>
+                <a href="#featured" class="gh-btn gh-btn-outline btn-sm">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div id="featured" class="pt-5">
+        <div class="d-flex justify-content-between align-items-end mb-4 animate-up">
+            <h2 class="fw-bold m-0">Featured Products</h2>
+            <div class="d-flex gap-3 small fw-bold">
+                <a asp-action="Index" class="text-purple border-bottom border-purple text-decoration-none">All</a>
+                <a asp-action="Index" asp-route-categoryId="3" class="text-muted text-decoration-none">Desserts</a>
+                <a asp-action="Index" asp-route-categoryId="1" class="text-muted text-decoration-none">Vegetables</a>
+                <a asp-action="Index" asp-route-categoryId="4" class="text-muted text-decoration-none">Beverage</a>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5 animate-up">
+@foreach (var item in Model)
+{
+    <div class="col-lg-2-5 col-md-4 col-6">
+        <div class="f-card h-100 position-relative">
+
+            <span class="f-badge">-16%</span>
+
+            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                <div class="text-center py-4 mb-3">
+
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="@item.ImagePath" alt="@item.Name"
+                             class="img-fluid"
+                             style="max-height:120px;object-fit:contain;">
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.png"
+                             class="img-fluid"
+                             style="max-height:120px;">
+                    }
+
+                </div>
+            </a>
+
+            <p class="text-muted small mb-1">@item.Category?.Name</p>
+
+            <a asp-action="Details" asp-route-id="@item.Id"
+               class="text-decoration-none text-dark">
+                <h6 class="fw-bold mb-2">@item.Name</h6>
+            </a>
+
+            <div class="rating-stars mb-2">
+                ⭐⭐⭐⭐⭐ <span class="text-muted small">(5.00)</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="fw-bold text-dark">₹@item.Price</span>
+                <span class="text-muted small text-decoration-line-through">
+                    ₹@(item.Price + 20)
+                </span>
+            </div>
+
+            <button onclick="addToCart(@item.Id)"
+                    class="gh-btn gh-btn-outline w-100 py-2 small fw-bold"
+                    style="border-radius:5px;">
+                Select Options
+            </button>
+
+        </div>
+    </div>
+}
+</div>
+
+    <!-- Top Seller Users -->
+    <div class="py-5">
+        <h2 class="fw-bold mb-4 border-start border-4 border-success ps-3">Top Seller Users</h2>
+        <div class="row g-4 animate-up">
+            <div class="col-md-3">
+                <div class="seller-card shadow-sm cursor-pointer">
+                    <img src="https://banner2.cleanpng.com/20181015/kl/kisspng-computer-icons-scalable-vector-graphics-user-compu-magnifying-glass-business-stats-analytics-stat-5bc5327c59d7a9.489920231539650172368.jpg" class="seller-img" />
+                    <div>
+                        <p class="fw-bold mb-0">Chithambaram Stores</p>
+                        <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="seller-card shadow-sm border border-success cursor-pointer">
+                    <img src="https://banner2.cleanpng.com/20181015/kl/kisspng-computer-icons-scalable-vector-graphics-user-compu-magnifying-glass-business-stats-analytics-stat-5bc5327c59d7a9.489920231539650172368.jpg" class="seller-img" />
+                    <div>
+                        <p class="fw-bold mb-0">Chithra stores</p>
+                        <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="seller-card shadow-sm cursor-pointer">
+                    <img src="https://banner2.cleanpng.com/20181015/kl/kisspng-computer-icons-scalable-vector-graphics-user-compu-magnifying-glass-business-stats-analytics-stat-5bc5327c59d7a9.489920231539650172368.jpg" class="seller-img" />
+                    <div>
+                        <p class="fw-bold mb-0">Rajan Store</p>
+                        <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="seller-card shadow-sm cursor-pointer">
+                    <img src="https://banner2.cleanpng.com/20181015/kl/kisspng-computer-icons-scalable-vector-graphics-user-compu-magnifying-glass-business-stats-analytics-stat-5bc5327c59d7a9.489920231539650172368.jpg" class="seller-img" />
+                    <div>
+                        <p class="fw-bold mb-0">Fresh Market</p>
+                        <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .col-lg-2-5 { width: 20%; }
+    .cursor-pointer { cursor: pointer; }
+    @@media (max-width: 992px) { .col-lg-2-5 { width: 33.33%; } }
+    @@media (max-width: 576px) { .col-lg-2-5 { width: 50%; } }
+</style>

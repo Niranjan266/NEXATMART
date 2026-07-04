@@ -1,0 +1,29 @@
+@model OnlineGroceryShop.Models.Category
+@{
+    ViewData["Title"] = "New Category";
+}
+
+<div class="row justify-content-center pt-5">
+    <div class="col-md-5 animate-slide-up">
+        <div class="apple-card p-5">
+            <h2 class="text-center fw-bold mb-2">Add Category</h2>
+            <p class="text-center text-secondary mb-5">Create a new section for your products.</p>
+            
+            <form asp-action="AddCategory" method="post">
+                <div class="mb-4">
+                    <label asp-for="Name" class="form-label small fw-medium text-secondary"></label>
+                    <input asp-for="Name" class="form-control apple-btn border-0 shadow-sm" required style="background: rgba(0,0,0,0.05);">
+                </div>
+                <div class="mb-5">
+                    <label asp-for="Description" class="form-label small fw-medium text-secondary"></label>
+                    <textarea asp-for="Description" class="form-control apple-btn border-0 shadow-sm" rows="3" style="background: rgba(0,0,0,0.05);"></textarea>
+                </div>
+                
+                <div class="d-flex gap-3">
+                    <button type="submit" class="apple-btn apple-btn-primary flex-grow-1 py-3 shadow-lg">Save Category</button>
+                    <a asp-action="Categories" class="apple-btn bg-dark text-white text-decoration-none px-4 py-3">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

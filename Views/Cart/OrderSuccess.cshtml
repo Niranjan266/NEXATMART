@@ -1,0 +1,24 @@
+@model int
+@{
+    ViewData["Title"] = "Thank You";
+}
+
+<div class="row justify-content-center pt-5">
+    <div class="col-md-8 text-center py-5 animate-slide-up">
+        <div class="mb-5">
+            <span style="font-size: 5rem;" class="animate__animated animate__bounceIn">🍏</span>
+        </div>
+        <h1 class="sf-hero-text mb-3">Order Confirmed.</h1>
+        <p class="h4 text-secondary fw-normal mb-5">Your order #@Model has been placed successfully.</p>
+        
+        <div class="apple-card p-5 d-inline-block text-start" style="max-width: 500px;">
+            <p class="mb-2"><span class="text-secondary">Expected delivery:</span> <span class="fw-semibold">Tomorrow, by 10 AM</span></p>
+            <p class="mb-0"><span class="text-secondary">Payment status:</span> <span class="badge bg-success rounded-pill">Paid</span></p>
+        </div>
+
+        <div class="mt-5 d-flex justify-content-center gap-3">
+            <a asp-controller="Home" asp-action="Index" class="apple-btn apple-btn-primary px-5 py-3 text-decoration-none shadow">Shop More</a>
+            <a asp-controller="Account" asp-action="OrderHistory" class="apple-btn bg-dark text-white px-5 py-3 text-decoration-none">Track Order</a>
+        </div>
+    </div>
+</div>

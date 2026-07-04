@@ -1,0 +1,76 @@
+@model IEnumerable<OnlineGroceryShop.Models.Order>
+@{
+    ViewData["Title"] = "Fulfillment Center";
+}
+
+<div class="container pt-5">
+    <div class="row align-items-end mb-5 animate-up">
+        <div class="col-md-7">
+            <h1 class="display-4 fw-bold" style="color: var(--f-text);">Fulfillment <span style="color: var(--f-purple);">Center.</span></h1>
+            <p class="text-muted h5 fw-normal mt-2">Oversee and manage customer order deliveries.</p>
+        </div>
+        <div class="col-md-5 text-md-end mt-4 mt-md-0">
+            <div class="d-inline-flex gap-2 p-2 bg-light rounded-pill border" style="border-color: var(--f-border) !important;">
+                <a asp-action="Index" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Products</a>
+                <a asp-action="Categories" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Categories</a>
+                <a asp-action="SalesReport" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Sales</a>
+                <a asp-action="Orders" class="gh-btn gh-btn-primary py-2 px-4 shadow-sm">Orders</a>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="f-card p-0 overflow-hidden border-0 shadow-sm animate-up" style="background: white; animation-delay: 0.1s;">
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle mb-0">
+                    <thead>
+                        <tr class="text-muted small border-bottom" style="border-color: var(--f-border) !important;">
+                            <th class="pb-3 px-4">Order ID</th>
+                            <th class="pb-3">Customer</th>
+                            <th class="pb-3 text-center">Amount</th>
+                            <th class="pb-3 text-center">Date</th>
+                            <th class="pb-3 text-center">Status</th>
+                            <th class="pb-3 text-end px-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr class="border-bottom" style="border-color: var(--f-border) !important;">
+                                <td class="py-4 px-4 fw-bold" style="color: var(--f-text);">#@order.Id</td>
+                                <td class="py-4">
+                                    <div class="fw-bold" style="color: var(--f-text);">@order.User?.Name</div>
+                                    <small class="text-muted small">@order.User?.Email</small>
+                                </td>
+                                <td class="text-center py-4 fw-bold" style="color: var(--f-purple);">₹@order.TotalAmount.ToString("N2")</td>
+                                <td class="text-center py-4 text-muted small">@order.OrderDate.ToShortDateString()</td>
+                                <td class="text-center py-4">
+                                    <span class="badge rounded-pill px-3 py-2 text-white" style="background: @(order.Status == "Delivered" ? "#10b981" : "#f59e0b"); font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase;">@order.Status</span>
+                                </td>
+                                <td class="text-end px-4">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        @if (order.Status == "Processing" || order.Status == "Pending")
+                                        {
+                                            <form asp-action="UpdateOrderStatus" method="post" class="m-0">
+                                                <input type="hidden" name="id" value="@order.Id" />
+                                                <input type="hidden" name="status" value="Delivered" />
+                                                <button type="submit" class="gh-btn gh-btn-primary px-3 py-2 small shadow-sm" style="font-size: 0.8rem; border-radius: 6px;">Approve Delivery 🚀</button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5 animate-up">
+            <h2 class="h3 text-muted fw-normal">No active orders found.</h2>
+        </div>
+    }
+</div>

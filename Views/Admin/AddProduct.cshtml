@@ -1,0 +1,54 @@
+@model OnlineGroceryShop.Models.Product
+@{
+    ViewData["Title"] = "Add Fresh Item";
+}
+
+<div class="container pt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 animate-up">
+            <div class="f-card p-5 shadow-sm" style="background: white;">
+                <div class="mb-5 border-bottom pb-4" style="border-color: var(--f-border) !important;">
+                    <h2 class="fw-bold mb-2" style="color: var(--f-text);">Add Fresh Item</h2>
+                    <p class="text-muted mb-0">Populate your store with the best groceries.</p>
+                </div>
+
+                <form asp-action="AddProduct" method="post">
+                    <div asp-validation-summary="All" class="text-danger mb-4"></div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Product Name</label>
+                            <input asp-for="Name" class="form-control bg-light border-0 py-3 px-4" placeholder="e.g. Organic Bananas" required style="border-radius: 8px;">
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Category</label>
+                            <select asp-for="CategoryId" class="form-select bg-light border-0 py-3 px-4" asp-items="@ViewBag.Categories" style="border-radius: 8px;"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Price (₹)</label>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control bg-light border-0 py-3 px-4" placeholder="0.00" required style="border-radius: 8px;">
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Stock Quantity</label>
+                            <input asp-for="StockQuantity" type="number" class="form-control bg-light border-0 py-3 px-4" placeholder="100" required style="border-radius: 8px;">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-muted">Description</label>
+                            <textarea asp-for="Description" class="form-control bg-light border-0 py-3 px-4" rows="3" placeholder="Describe the item..." style="border-radius: 8px;"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-muted">Image URL</label>
+                            <input asp-for="ImagePath" class="form-control bg-light border-0 py-3 px-4" placeholder="https://..." style="border-radius: 8px;">
+                        </div>
+                    </div>
+
+                    <div class="mt-5 d-flex gap-3 pt-4 border-top" style="border-color: var(--f-border) !important;">
+                        <button type="submit" class="gh-btn gh-btn-primary flex-grow-1 py-3 shadow-sm">Save Product</button>
+                        <a asp-action="Index" class="gh-btn gh-btn-outline px-5 py-3" style="color: var(--f-text) !important;">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

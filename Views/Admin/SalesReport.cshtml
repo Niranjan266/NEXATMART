@@ -1,0 +1,74 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Sales Insight";
+}
+
+<div class="container pt-5">
+    <div class="row align-items-end mb-5 animate-up">
+        <div class="col-md-7">
+            <h1 class="display-4 fw-bold" style="color: var(--f-text);">Sales <span style="color: var(--f-purple);">Insight.</span></h1>
+            <p class="text-muted h5 fw-normal mt-2">Track your business growth and performance.</p>
+        </div>
+        <div class="col-md-5 text-md-end mt-4 mt-md-0">
+            <div class="d-inline-flex gap-2 p-2 bg-light rounded-pill border" style="border-color: var(--f-border) !important;">
+                <a asp-action="Index" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Products</a>
+                <a asp-action="Categories" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Categories</a>
+                <a asp-action="SalesReport" class="gh-btn gh-btn-primary py-2 px-4 shadow-sm">Sales</a>
+                <a asp-action="Orders" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Orders</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5 animate-up" style="animation-delay: 0.1s;">
+        <div class="col-md-4">
+            <div class="f-card p-4 h-100 shadow-sm" style="background: white;">
+                <small class="text-muted fw-bold">Total Revenue</small>
+                <h2 class="display-6 fw-bold mt-2" style="color: var(--f-purple);">₹@Model.Sum(r => (decimal)r.TotalSales).ToString("N2")</h2>
+                <div class="mt-3 small text-success">↑ 12% from last month</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="f-card p-4 h-100 shadow-sm" style="background: white;">
+                <small class="text-muted fw-bold">Total Orders</small>
+                <h2 class="display-6 fw-bold mt-2" style="color: var(--f-text);">@Model.Sum(r => (int)r.OrderCount)</h2>
+                <div class="mt-3 small text-muted">Across all categories</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="f-card p-4 h-100 shadow-sm" style="background: white;">
+                <small class="text-muted fw-bold">Average Order</small>
+                <h2 class="display-6 fw-bold mt-2" style="color: var(--f-text);">
+                    ₹@(Model.Any() ? (Model.Sum(r => (decimal)r.TotalSales) / Model.Sum(r => (int)r.OrderCount)).ToString("N2") : "0.00")
+                </h2>
+                <div class="mt-3 small text-muted">Per customer session</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="f-card p-4 animate-up shadow-sm" style="background: white; animation-delay: 0.2s;">
+        <h4 class="fw-bold mb-4 px-3" style="color: var(--f-text);">Daily Breakdown</h4>
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle mb-0">
+                <thead>
+                    <tr class="text-muted small border-bottom" style="border-color: var(--f-border) !important;">
+                        <th class="pb-3 px-3">Date</th>
+                        <th class="pb-3 text-center">Orders</th>
+                        <th class="pb-3 text-end px-3">Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model)
+                    {
+                        <tr class="border-bottom" style="border-color: var(--f-border) !important;">
+                            <td class="py-4 px-3 fw-medium" style="color: var(--f-text);">@report.Date.ToString("MMM dd, yyyy")</td>
+                            <td class="text-center py-4">
+                                <span class="bg-light rounded-pill px-3 py-1 fw-bold" style="color: var(--f-text); font-size: 0.85rem;">@report.OrderCount orders</span>
+                            </td>
+                            <td class="text-end py-4 px-3 fw-bold h5 mb-0" style="color: var(--f-purple);">₹@report.TotalSales.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

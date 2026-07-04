@@ -1,0 +1,57 @@
+@model IEnumerable<OnlineGroceryShop.Models.Order>
+@{
+    ViewData["Title"] = "Your Orders";
+}
+
+<div class="container pt-5">
+    <div class="mb-5 animate-up">
+        <h1 class="display-4 fw-bold">Your <span style="color: var(--f-purple);">Orders.</span></h1>
+        <p class="text-muted h5 fw-normal mt-2">A history of your fresh selections.</p>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="f-card p-0 overflow-hidden border-0 shadow-sm animate-up" style="background: white; animation-delay: 0.1s;">
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle mb-0">
+                    <thead>
+                        <tr class="text-muted small border-bottom" style="border-color: var(--f-border) !important;">
+                            <th class="pb-3 px-4">ID</th>
+                            <th class="pb-3">Date</th>
+                            <th class="pb-3 text-center">Total</th>
+                            <th class="pb-3 text-center">Status</th>
+                            <th class="pb-3 text-end px-4">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr class="border-bottom" style="border-color: var(--f-border) !important;">
+                                <td class="py-4 px-4">
+                                    <span class="rounded-pill px-3 py-1 small fw-bold text-white shadow-sm" style="background: var(--f-purple);">#@order.Id</span>
+                                </td>
+                                <td class="py-4 text-dark">
+                                    @order.OrderDate.ToString("MMM dd, yyyy")
+                                </td>
+                                <td class="text-center py-4 fw-bold h5 mb-0" style="color: var(--f-purple);">₹@order.TotalAmount.ToString("N2")</td>
+                                <td class="text-center py-4">
+                                    <span class="badge rounded-pill px-3 py-2 text-white" style="background: @(order.Status == "Delivered" ? "#10b981" : "#f59e0b"); letter-spacing: 0.5px; text-transform: uppercase;">@order.Status</span>
+                                </td>
+                                <td class="text-end py-4 px-4">
+                                    <a asp-action="OrderDetails" asp-route-id="@order.Id" class="gh-btn gh-btn-outline px-4 py-2" style="font-size: 0.85rem; border: 1px solid var(--f-border); color: var(--f-text) !important;">View Receipt</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5 animate-up">
+            <h2 class="h3 text-muted fw-normal mb-5">No order history found.</h2>
+            <a asp-controller="Home" asp-action="Index" class="gh-btn gh-btn-primary px-5 py-3 shadow-sm">Shop Nexamart Today</a>
+        </div>
+    }
+</div>

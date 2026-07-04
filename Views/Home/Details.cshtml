@@ -1,0 +1,103 @@
+@model OnlineGroceryShop.Models.Product
+@{
+    ViewData["Title"] = Model.Name + " - Nexamart Details";
+}
+
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Product Images -->
+        <div class="col-md-6 animate-up">
+            <div class="f-card p-5 text-center shadow-sm" style="background: white;">
+                <img src="@Model.ImagePath" alt="@Model.Name" class="img-fluid" style="max-height: 400px; object-fit: contain;">
+            </div>
+            <div class="d-flex gap-3 mt-4">
+                <div class="f-card p-3 shadow-sm flex-grow-1 text-center" style="background: white;">
+                   <img src="@Model.ImagePath" style="height: 60px; object-fit: contain; opacity: 0.5;">
+                </div>
+                <div class="f-card p-3 shadow-sm flex-grow-1 text-center" style="background: white;">
+                   <img src="@Model.ImagePath" style="height: 60px; object-fit: contain; opacity: 0.5;">
+                </div>
+                <div class="f-card p-3 shadow-sm flex-grow-1 text-center" style="background: white;">
+                   <img src="@Model.ImagePath" style="height: 60px; object-fit: contain; opacity: 0.5;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-md-6 animate-up" style="animation-delay: 0.1s;">
+            <div class="ps-md-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="badge bg-purple-dim text-purple px-3 py-2 rounded-pill fw-bold">@Model.Category?.Name</span>
+                    <span class="text-muted small">ID: #FRESH-@Model.Id</span>
+                </div>
+                
+                <h1 class="display-5 fw-bold mb-3" style="color: var(--f-text);">@Model.Name</h1>
+                
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rating-stars h5 mb-0">⭐⭐⭐⭐⭐</div>
+                    <span class="text-muted">(128 Customer Reviews)</span>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mb-5">
+                        <h2 class="display-6 fw-bold mb-0" style="color: var(--f-purple);">₹@Model.Price.ToString("N2")</h2>
+                        <span class="text-muted h4 mb-0 text-decoration-line-through">₹@(Model.Price + 5).ToString("N2")</span>
+                        <span class="badge bg-danger rounded-pill px-3 py-2 fw-bold">SAVE ₹5.00</span>
+
+                <p class="text-muted mb-5 fs-5 leading-relaxed">
+                    @(string.IsNullOrEmpty(Model.Description) 
+                        ? "Experience the peak of freshness with our hand-picked products. Sustainably sourced and delivered straight from the farm to your doorstep, ensuring maximum flavor and nutrition in every bite. Perfect for healthy snacks, gourmet cooking, and daily essentials." 
+                        : Model.Description)
+                </p>
+
+                <div class="d-flex align-items-center gap-4 mb-5">
+                    <div class="d-flex align-items-center border rounded-pill px-3 py-2" style="background: var(--f-section-bg); border-color: var(--f-border) !important;">
+                        <button class="btn btn-link text-dark p-0" onclick="updateQty(-1)">➖</button>
+                        <input type="number" id="detail-qty" value="1" min="1" class="form-control bg-transparent border-0 text-center fw-bold" style="width: 50px; box-shadow: none;">
+                        <button class="btn btn-link text-dark p-0" onclick="updateQty(1)">➕</button>
+                    </div>
+                    <button onclick="addToCartWithQty(@Model.Id)" class="gh-btn gh-btn-primary flex-grow-1 py-3 px-5 shadow-sm">
+                        Add To Bag 🛒
+                    </button>
+                </div>
+
+                <div class="py-4 border-top">
+                    <div class="d-flex flex-column gap-2 small">
+                        <div class="d-flex gap-2">
+                             <span class="fw-bold text-dark">Availability:</span>
+                             <span class="@(Model.StockQuantity > 0 ? "text-success" : "text-danger") fw-bold">
+                                @(Model.StockQuantity > 0 ? $"In Stock ({Model.StockQuantity} items)" : "Out of Stock")
+                             </span>
+                        </div>
+                        <div class="d-flex gap-2">
+                             <span class="fw-bold text-dark">Category:</span>
+                             <span class="text-muted">@Model.Category?.Name, Organic, Fresh</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                             <span class="fw-bold text-dark">Tags:</span>
+                             <span class="text-muted">Healthy, Grocery, Farm-Direct</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateQty(delta) {
+            const input = document.getElementById('detail-qty');
+            let val = parseInt(input.value) + delta;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+
+        function addToCartWithQty(productId) {
+            const qty = document.getElementById('detail-qty').value;
+            // For now, reuse the standard AJAX but could be updated to support Qty param
+            for(let i=0; i < qty; i++) {
+                addToCart(productId);
+            }
+        }
+    </script>
+}

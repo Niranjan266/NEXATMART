@@ -1,0 +1,96 @@
+@model OnlineGroceryShop.Models.Order
+@{
+    ViewData["Title"] = "Order Receipt #" + Model.Id;
+}
+
+<div class="container pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 animate-up">
+            
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <a asp-action="OrderHistory" class="text-decoration-none text-muted fw-bold">← Back to Orders</a>
+                <button class="gh-btn gh-btn-outline btn-sm px-4" onclick="window.print()">Print Receipt</button>
+            </div>
+
+            <div class="f-card p-0 overflow-hidden shadow-sm" style="background: white;">
+                
+                <!-- Receipt Header -->
+                <div class="p-5 border-bottom bg-light bg-opacity-50" style="border-color: var(--f-border) !important;">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h2 class="fw-bold mb-1" style="color: var(--f-text);">Order Receipt</h2>
+                            <p class="text-muted mb-0">Confirmation #@Model.Id</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge rounded-pill px-3 py-2 text-white mb-2" style="background: @(Model.Status == "Delivered" ? "#10b981" : "#f59e0b"); letter-spacing: 0.5px; text-transform: uppercase;">@Model.Status</span>
+                            <p class="text-muted small mb-0">@Model.OrderDate.ToString("MMMM dd, yyyy - hh:mm tt")</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Receipt Body -->
+                <div class="p-5">
+                    <h5 class="fw-bold mb-4" style="color: var(--f-text);">Items Purchased</h5>
+                    
+                    <div class="table-responsive mb-4">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead>
+                                <tr class="text-muted small border-bottom" style="border-color: var(--f-border) !important;">
+                                    <th class="pb-3 px-0">Product</th>
+                                    <th class="pb-3 text-center">Qty</th>
+                                    <th class="pb-3 text-end px-0">Price</th>
+                                    <th class="pb-3 text-end px-0">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <tr class="border-bottom" style="border-color: var(--f-border) !important;">
+                                        <td class="py-4 px-0">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="bg-light rounded-2 p-1" style="width: 48px; height: 48px; display: grid; place-items: center;">
+                                                    <img src="@item.Product?.ImagePath" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                                                </div>
+                                                <div>
+                                                    <span class="fw-bold d-block" style="color: var(--f-text);">@item.Product?.Name</span>
+                                                    <span class="text-muted small">@item.Product?.Category?.Name</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center py-4 fw-medium text-muted">x @item.Quantity</td>
+                                        <td class="text-end py-4 text-muted">₹@item.UnitPrice.ToString("N2")</td>
+                                        <td class="text-end py-4 fw-bold" style="color: var(--f-purple);">₹@((item.UnitPrice * item.Quantity).ToString("N2"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="row justify-content-end">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="d-flex justify-content-between mb-2 small text-muted">
+                                <span>Subtotal</span>
+                                <span>₹@Model.TotalAmount.ToString("N2")</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3 small text-muted">
+                                <span>Delivery Fee</span>
+                                <span class="text-success">Free</span>
+                            </div>
+                            <div class="d-flex justify-content-between pt-3 border-top" style="border-color: var(--f-border) !important;">
+                                <span class="fw-bold fs-5 text-dark">Total</span>
+                                <span class="fw-bold fs-4" style="color: var(--f-purple);">₹@Model.TotalAmount.ToString("N2")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="text-muted small">Thank you for shopping with Nexamart! If you have any questions about this receipt, please contact <a href="mailto:support@nexamart.com" class="text-purple text-decoration-none fw-bold">support@nexamart.com</a>.</p>
+            </div>
+            
+        </div>
+    </div>
+</div>

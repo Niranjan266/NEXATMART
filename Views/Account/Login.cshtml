@@ -1,0 +1,40 @@
+@model OnlineGroceryShop.Models.User
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="row justify-content-center pt-5">
+    <div class="col-md-5 animate-up">
+        <div class="f-card p-5 shadow-sm" style="background: white;">
+            <h2 class="text-center fw-bold mb-2">Sign in to <span style="color: var(--f-purple);">Nexa</span>mart</h2>
+            <p class="text-center text-muted mb-5">Enter your details below to continue shopping.</p>
+            
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger border-0 rounded-4 py-3 mb-4 animate__animated animate__shakeX" style="background: #fef2f2; color: #991b1b;">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <form asp-action="Login" method="post">
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-muted">Phone Number</label>
+                    <input name="phoneNumber" type="tel" class="form-control bg-light border-0 py-3 px-4" placeholder="Your phone number" required style="border-radius: 12px; color: var(--f-text);">
+                </div>
+                <div class="mb-5">
+                    <label class="form-label small fw-bold text-muted">Password</label>
+                    <input name="password" type="password" class="form-control bg-light border-0 py-3 px-4" placeholder="Your password" required style="border-radius: 12px; color: var(--f-text);">
+                </div>
+                <button type="submit" class="gh-btn gh-btn-primary w-100 py-3 shadow-sm">Sign In</button>
+            </form>
+            
+            <div class="mt-5 text-center border-top pt-4">
+                <p class="text-muted small">Don't have an account? <a asp-action="Register" class="text-purple text-decoration-none fw-bold">Create one now</a></p>
+                <div class="mt-4 p-3 rounded-4 bg-light text-start border" style="border-color: var(--f-border) !important;">
+                    <p class="small text-muted mb-1">Demo Admin: <strong class="text-dark">0000000000 / admin123</strong></p>
+                    <p class="small text-muted mb-0">Demo Customer: <strong class="text-dark">1234567890 / user123</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

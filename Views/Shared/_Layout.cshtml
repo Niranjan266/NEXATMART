@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Nexamart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="top-bar text-center">
+        FREE delivery & 40% Discount for next 3 orders! Place your 1st order in
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg glass-nav">
+            <div class="container d-flex flex-column gap-3">
+                <!-- Top Row: Logo, Search, Actions -->
+                <div class="d-flex w-100 align-items-center justify-content-between gap-4">
+                    <a class="navbar-brand gh-brand m-0" asp-controller="Home" asp-action="Index">Nexa<span>mart</span></a>
+                    
+                    <form asp-controller="Home" asp-action="Index" method="get" class="search-container d-none d-md-flex">
+                        <div class="input-group">
+                            <select name="categoryId" class="form-select border-end-0 bg-light" style="max-width: 140px; border-radius: 50px 0 0 50px;">
+                                <option value="">All Categories</option>
+                                <option value="1">Vegetables</option>
+                                <option value="2">Fruits</option>
+                                <option value="3">Desserts</option>
+                            </select>
+                            <input type="text" name="searchString" class="form-control bg-light border-start-0 py-2" placeholder="Type Your Products..." style="border-radius: 0;">
+                            <button class="search-btn text-dark fw-bold" type="submit">Search 🔍</button>
+                        </div>
+                    </form>
+
+                    <div class="d-flex align-items-center gap-3">
+                        @if (Context.Session.GetString("Username") != null)
+                        {
+                            @if(Context.Session.GetString("UserRole") == "Admin")
+                            {
+                                <a asp-controller="Admin" asp-action="Index" class="text-decoration-none fw-bold small me-2" style="color: var(--f-purple) !important;">Admin Panel</a>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center gap-3 me-2">
+                                    <span class="fw-bold small text-dark">
+                                        Hi, @Context.Session.GetString("Username")
+                                    </span>
+                                    <a asp-controller="Account" asp-action="OrderHistory" class="text-decoration-none fw-bold small" style="color: var(--f-purple) !important;">
+                                        📦 My Orders
+                                    </a>
+                                </div>
+                            }
+                            <a asp-controller="Cart" asp-action="Index" class="text-dark text-decoration-none position-relative fs-5 me-2">
+                                🛒 <span id="cart-count" class="badge bg-warning text-dark rounded-pill position-absolute top-0 start-100 translate-middle" style="font-size: 0.6rem; display: none;">0</span>
+                            </a>
+                            <a asp-controller="Account" asp-action="Logout" class="gh-btn gh-btn-outline py-2 px-3 shadow-sm border-0 small fw-bold" style="color: var(--f-text) !important;">Logout</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="text-dark text-decoration-none fs-5">👤</a>
+                             <a asp-controller="Account" asp-action="Login" class="gh-btn gh-btn-primary py-2 px-4 shadow-sm">Sign In</a>
+                        }
+
+                        <button onclick="startVoice()" class="gh-btn gh-btn-outline py-2 px-4 shadow-sm mt-2">
+                            🎤 Speak
+                        </button>
+                    </div>
+                </div>
+
+
+<script src="~/js/voiceassistant.js" asp-append-version="true"></script>
+
+                <!-- Bottom Row: Nav Links -->
+                <div class="w-100 d-flex justify-content-center">
+                    <ul class="navbar-nav gap-4 small fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted" asp-controller="Home" asp-action="About">About</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-muted dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Categories</a>
+                            <ul class="dropdown-menu border-0 shadow-lg p-3">
+                                <li><a class="dropdown-item py-2" asp-controller="Home" asp-action="Index" asp-route-categoryId="1">🥦 Vegetables</a></li>
+                                <li><a class="dropdown-item py-2" asp-controller="Home" asp-action="Index" asp-route-categoryId="2">🍎 Fruits</a></li>
+                                <li><a class="dropdown-item py-2" asp-controller="Home" asp-action="Index" asp-route-categoryId="3">🧁 Desserts</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item py-2" asp-controller="Home" asp-action="Index">View All</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-muted" asp-controller="Home" asp-action="Service">Service</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="pb-5">
+        @RenderBody()
+    </main>
+
+    <footer class="py-5 bg-light border-top mt-5">
+        <div class="container text-center">
+            <span class="gh-brand">Nexa<span>mart</span></span>
+            <p class="text-muted small mt-3">&copy; 2026 Nexamart Grocery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">Item added to your bag!</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addToCart(productId) {
+            $.post('/Cart/AddToCartAjax', { productId: productId }, function(data) {
+                if (data.success) {
+                    $('#cart-count').text(data.cartCount).show();
+                    var toast = new bootstrap.Toast(document.getElementById('cartToast'));
+                    toast.show();
+                } else if (data.message === "Please login first") {
+                    window.location.href = '/Account/Login';
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $.get('/Cart/GetCartCount', function(count) {
+                if (count > 0) $('#cart-count').text(count).show();
+            });
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

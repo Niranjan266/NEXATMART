@@ -1,0 +1,101 @@
+@model IEnumerable<OnlineGroceryShop.Models.Product>
+@{
+    ViewData["Title"] = "Inventory Control";
+}
+
+<div class="container pt-5 mb-5">
+    <div class="row align-items-end animate-up">
+        <div class="col-md-7">
+            <h1 class="display-4 fw-bold" style="color: var(--f-text);">Inventory Control.</h1>
+            <p class="text-muted h5 fw-normal mt-2">Manage your fresh catalog with precision.</p>
+        </div>
+        <div class="col-md-5 text-md-end mt-4 mt-md-0">
+            <div class="d-inline-flex gap-2 p-2 bg-light rounded-pill border" style="border-color: var(--f-border) !important;">
+                <a asp-action="Index" class="gh-btn gh-btn-primary py-2 px-4 shadow-sm">Products</a>
+                <a asp-action="Categories" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Categories</a>
+                <a asp-action="SalesReport" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Sales</a>
+                <a asp-action="Orders" class="gh-btn gh-btn-outline py-2 px-4 border-0" style="color: var(--f-text) !important;">Orders</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container animate-up" style="animation-delay: 0.1s;">
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger shadow-sm border-0 rounded-4 py-3 mb-4 animate__animated animate__shakeX">
+            <strong class="d-block mb-1">Action Denied</strong>
+            @TempData["Error"]
+        </div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success shadow-sm border-0 rounded-4 py-3 mb-4 text-success" style="background: #ecfdf5;">
+            @TempData["Success"]
+        </div>
+    }
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-action="AddProduct" class="gh-btn gh-btn-primary py-2 px-4 shadow-sm fw-bold">+ Add New Product</a>
+    </div>
+    <div class="f-card p-4 shadow-sm" style="background: white;">
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle mb-0">
+                <thead>
+                    <tr class="text-muted small border-bottom" style="border-color: var(--f-border) !important;">
+                        <th class="pb-3 px-3">Product</th>
+                        <th class="pb-3">Category</th>
+                        <th class="pb-3 text-center">Price</th>
+                        <th class="pb-3 text-center">Stock</th>
+                        <th class="pb-3 text-end px-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border-bottom" style="border-color: var(--f-border) !important;">
+                            <td class="py-4 px-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light rounded-2 p-1 me-3" style="width: 44px; height: 44px; display: grid; place-items: center;">
+                                        <img src="@item.ImagePath" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                                    </div>
+                                    <span class="fw-bold" style="color: var(--f-text);">@item.Name</span>
+                                </div>
+                            </td>
+                            <td class="text-muted small">@item.Category?.Name</td>
+                            <td class="text-center fw-bold h6 mb-0" style="color: var(--f-purple);">$@item.Price</td>
+                            <td class="text-center">
+                                <span class="badge @(item.StockQuantity < 10 ? "bg-danger" : "bg-light text-dark") rounded-pill px-3 py-2 fw-bold" style="font-size: 0.75rem;">
+                                    @item.StockQuantity LEFT
+                                </span>
+                            </td>
+                            <td class="text-end px-3">
+                                <a asp-action="EditProduct" asp-route-id="@item.Id" class="text-purple text-decoration-none me-4 fw-bold small">EDIT</a>
+                                <form asp-action="DeleteProduct" method="post" class="d-inline border-0 p-0 m-0" onsubmit="event.preventDefault(); return requestOtpAndSubmit(this);">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="otp" class="admin-pwd-input" value="" />
+                                    <button type="submit" class="bg-transparent border-0 text-danger fw-bold small">REMOVE</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function requestOtpAndSubmit(form) {
+        // Fire OTP request in the background immediately
+        fetch('@Url.Action("SendDeleteOtp", "Admin")', { method: 'POST' }).catch(e => console.error(e));
+
+        // Immediately prompt the user so they don't have to wait
+        var targetEmail = "niranjanlithikasan937@gmail.com";
+        var enteredOtp = prompt(`Admin Authorization Required.\nAn OTP is being sent to ${targetEmail} right now.\nPlease enter the 6-digit OTP to securely delete this product:`);
+        
+        if (enteredOtp) {
+            form.querySelector('.admin-pwd-input').value = enteredOtp;
+            form.submit();
+        }
+    }
+</script>

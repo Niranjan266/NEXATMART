@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "Contact Support";
+}
+
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-md-5 animate-up">
+            <h1 class="display-4 fw-bold mb-4" style="color: var(--f-text);">Get in <span class="text-purple">Touch.</span></h1>
+            <p class="fs-5 text-muted mb-5">Have a question or need support? Our team is here to help you 24/7.</p>
+            
+            <div class="d-flex flex-column gap-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="cat-icon fs-3">📍</div>
+                    <div>
+                        <p class="fw-bold mb-0">Visit Us</p>
+                        <p class="text-muted mb-0">123 Fresh Lane, Organic City, ST 12345</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="cat-icon fs-3">📞</div>
+                    <div>
+                        <p class="fw-bold mb-0">Call Us</p>
+                        <p class="text-muted mb-0">+91 8525851601</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="cat-icon fs-3">✉️</div>
+                    <div>
+                        <p class="fw-bold mb-0">Email Support</p>
+                        <p class="text-muted mb-0">niranjanlithikasan937@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 animate-up" style="animation-delay: 0.1s;">
+            <div class="f-card p-5 shadow-sm" style="background: var(--f-section-bg);">
+                <form onsubmit="return false;">
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">Your Name</label>
+                            <input type="text" class="form-control border-0 py-3 px-4 rounded-3" placeholder="John Doe">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small text-muted">Email Address</label>
+                            <input type="email" class="form-control border-0 py-3 px-4 rounded-3" placeholder="john@@example.com">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label class="form-label fw-bold small text-muted">Message</label>
+                            <textarea class="form-control border-0 py-3 px-4 rounded-3" rows="5" placeholder="How can we help you?"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button class="gh-btn gh-btn-primary w-100 py-3 shadow-sm">Send Message ✉️</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
