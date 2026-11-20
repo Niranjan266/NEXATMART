@@ -9,10 +9,12 @@ namespace OnlineGroceryShop.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _config;
 
-public AdminController(ApplicationDbContext context)
+public AdminController(ApplicationDbContext context, IConfiguration config)
 {
     _context = context;
+    _config = config;
 }
 
         // ADMIN PRODUCT LIST
@@ -142,21 +144,29 @@ public AdminController(ApplicationDbContext context)
             // Store in session
             HttpContext.Session.SetString("DeleteOtp", otp);
 
-            string targetEmail = "niranjanlithikasan937@gmail.com";
+            // Mail settings come from configuration, never from source code. Set them as
+            // environment variables (Smtp__User, Smtp__Password, Smtp__AdminEmail) or with
+            // `dotnet user-secrets` during development.
+            string? smtpUser = _config["Smtp:User"];
+            string? smtpPassword = _config["Smtp:Password"];
+            string targetEmail = _config["Smtp:AdminEmail"] ?? smtpUser ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(smtpUser) || string.IsNullOrWhiteSpace(smtpPassword) || string.IsNullOrWhiteSpace(targetEmail))
+            {
+                return Json(new { success = false, message = "Email is not configured. Set Smtp:User, Smtp:Password and Smtp:AdminEmail." });
+            }
 
             try
             {
                 var smtpClient = new System.Net.Mail.SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    // IMPORTANT: You must replace "YOUR_GMAIL_APP_PASSWORD_HERE" with a real App Password from your Google Account
-                    Credentials = new System.Net.NetworkCredential("niranjanlithikasan937@gmail.com", "lpjl mgep uuep jdjs"),
+                    Credentials = new System.Net.NetworkCredential(smtpUser, smtpPassword),
                     EnableSsl = true,
                 };
 
                 var mailMessage = new System.Net.Mail.MailMessage
                 {
-                    From = new System.Net.Mail.MailAddress("niranjanlithikasan937@gmail.com"),
+                    From = new System.Net.Mail.MailAddress(smtpUser),
                     Subject = "Nexamart Security: Product Deletion OTP",
                     Body = $"Hello Admin,\n\nYour OTP for securely deleting a product is: {otp}\n\nDo not share this code with anyone.",
                     IsBodyHtml = false,
